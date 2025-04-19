@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import { useWallet } from "../hooks/WalletProvider";
 import { uploadImage } from "../utils/imgUploader";
+import WalletBalance from "../components/balanceComp";
 
 interface Message {
   sender: string;
@@ -34,7 +35,8 @@ interface SettingsState {
 }
 
 function ChatPage() {
-    const {WalletAddress} = useWallet();
+    const {WalletAddress,diswallet} = useWallet();
+   
   const [address, setAddress] = useState<string | null>(WalletAddress);
   const [message, setMessage] = useState("");
   const [chat, setChat] = useState<Message[]>([]);
@@ -160,6 +162,7 @@ function ChatPage() {
         setAddress(null);
         setActiveChatUser(null);
         setShowSettings(false);
+        diswallet();
         
         // You might also need to call a disconnect method from your web3 provider
         // This depends on which wallet and web3 library you're using
@@ -241,6 +244,7 @@ function ChatPage() {
             <span className="bg-slate-700 px-3 py-1 rounded-lg text-sm font-mono">
               {`${address.slice(0, 6)}...${address.slice(-4)}`}
             </span>
+            <WalletBalance address={WalletAddress} />
             <button 
               onClick={() => setShowSettings(true)}
               className="ml-2 p-1 hover:bg-slate-700 rounded-full"
@@ -322,7 +326,7 @@ function ChatPage() {
                     <div className="flex-1">
                       <div className="flex justify-between items-center">
                         <span className="font-medium text-sm">
-                          {user.username || `${user.address.slice(0, 6)}...${user.address.slice(-4)}`}
+                          {user?.username || `${user?.address?.slice(0, 6)}...${user?.address?.slice(-4)}`}
                         </span>
                         <span className="text-xs text-slate-400">
                           {user.isOnline ? (

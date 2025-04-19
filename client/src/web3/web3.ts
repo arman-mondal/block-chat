@@ -20,3 +20,15 @@ export async function connectWallet() {
 
   return { provider, signer, address };
 }
+export async function getBalance(address: string) {
+    if (!window.ethereum) {
+        alert("MetaMask not found!");
+        return;
+    }
+    
+    const provider = new BrowserProvider(window.ethereum);
+    const balance = await provider.getBalance(address);
+    return balance.toString();
+    }
+
+    

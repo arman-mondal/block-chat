@@ -4,7 +4,7 @@ import { useWallet } from "../hooks/WalletProvider";
 import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
-    const {isConnected}=useWallet();
+    const {isConnected,connectWallet}=useWallet();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [walletConnected, setWalletConnected] = useState(isConnected);
   
@@ -42,7 +42,7 @@ const nav=useNavigate();
             </button>
           ) : (
             <button 
-              onClick={()=>{}}
+              onClick={connectWallet}
               className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
             >
               Connect Wallet
@@ -72,7 +72,7 @@ const nav=useNavigate();
               </button>
             ) : (
               <button 
-                onClick={()=>{}}
+                onClick={connectWallet}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
               >
                 Connect Wallet

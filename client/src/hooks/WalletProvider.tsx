@@ -1,4 +1,4 @@
-import { BrowserProvider } from 'ethers';
+import { BrowserProvider, formatEther } from 'ethers';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 
 interface WalletContextProps {
@@ -7,6 +7,10 @@ interface WalletContextProps {
     WalletAddress: string | null;
     Provider: BrowserProvider | null;
     Signer: any;
+    balance: string | null;
+    chainId: string | null;
+    diswallet: () => void;
+
 
 }
 
@@ -17,6 +21,8 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     const [WalletAddress, setWalletAddress] = useState<string | null>(null);
     const [Provider, setProvider] = useState<BrowserProvider | null>(null);
     const [Signer, setSigner] = useState<any>(null);
+    const [balance, setBalance] = useState<string | null>(null);
+    const [chainId, setChainId] = useState<string | null>(null);
 
    async function connectWallet() {
      if (!window.ethereum) {
@@ -29,6 +35,12 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
    
      const signer = await provider.getSigner(); // ✅ Await here
      const address = await signer.getAddress();
+        const balance = await provider.getBalance(address);
+        const chainId = await provider.getNetwork();
+        setBalance(formatEther(balance));
+        setChainId(chainId.chainId.toString());
+        
+
         setIsConnected(true);
         setWalletAddress(address);
         setProvider(provider);
@@ -40,7 +52,17 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
    
      return { provider, signer, address };
    }
-   
+   const diswallet = async () => {
+        if (window.ethereum) {
+            const provider = new BrowserProvider(window.ethereum);
+            await provider.send("eth_requestAccounts", []);
+            setIsConnected(false);
+            setWalletAddress(null);
+            setProvider(null);
+            setSigner(null);
+        }
+    };
+
 
     useEffect(() => {
         const checkConnection = async () => {
@@ -50,6 +72,10 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
                     const provider = new BrowserProvider(window.ethereum);
                     const signer = await provider.getSigner();
                     const address = await signer.getAddress();
+                    const balance = await provider.getBalance(address);
+                    const chainId = await provider.getNetwork();
+                    setBalance(formatEther(balance));
+                    setChainId(chainId.chainId.toString());
                     setWalletAddress(address);
                     setProvider(provider);
                     setSigner(signer);
@@ -69,7 +95,7 @@ export const WalletProvider: React.FC<{ children: React.ReactNode }> = ({ childr
     }, []);
 
     return (
-        <WalletContext.Provider value={{ isConnected, connectWallet,WalletAddress, Provider, Signer }}>
+        <WalletContext.Provider value={{ isConnected, connectWallet,WalletAddress, Provider, Signer,balance ,chainId,diswallet}}>
             {children}
         </WalletContext.Provider>
     );
