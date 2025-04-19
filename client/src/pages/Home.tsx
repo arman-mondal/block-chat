@@ -4,7 +4,7 @@ import { useWallet } from "../hooks/WalletProvider";
 import { useNavigate } from "react-router-dom";
 
 export default function HomePage() {
-    const {isConnected,connectWallet}=useWallet();
+    const {isConnected}=useWallet();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [walletConnected, setWalletConnected] = useState(isConnected);
   
