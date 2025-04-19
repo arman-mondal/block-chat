@@ -23,7 +23,7 @@ const nav=useNavigate();
       <nav className="px-4 py-4 md:px-8 flex justify-between items-center border-b border-slate-800">
         <div className="flex items-center">
           <MessageSquare className="text-indigo-500 mr-2" />
-          <span className="text-xl font-bold">BlockChat</span>
+          <span className="text-xl font-bold">BlockChat</span><span className="text-sm text-slate-400 ml-2">v1.0</span>
         </div>
         
         {/* Desktop Navigation */}
@@ -42,7 +42,9 @@ const nav=useNavigate();
             </button>
           ) : (
             <button 
-              onClick={connectWallet}
+              onClick={()=>{
+                nav("/chat");
+              }}
               className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
             >
               Connect Wallet
@@ -72,7 +74,9 @@ const nav=useNavigate();
               </button>
             ) : (
               <button 
-                onClick={connectWallet}
+                onClick={()=>{
+                    nav("/chat");
+                  }}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg transition-colors"
               >
                 Connect Wallet

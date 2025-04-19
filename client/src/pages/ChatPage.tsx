@@ -234,7 +234,7 @@ function ChatPage() {
       <header className="px-4 py-3 bg-slate-800 border-b border-slate-700 flex justify-between items-center">
         <div className="flex items-center">
           <MessageSquare className="text-indigo-500 mr-2" />
-          <span className="text-xl font-bold">BlockChat</span>
+          <span className="text-xl font-bold">BlockChat</span><span className="text-sm text-slate-400 ml-2">v1.0</span>
         </div>
         
         {address ? (
